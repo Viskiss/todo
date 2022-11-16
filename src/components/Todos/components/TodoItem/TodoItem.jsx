@@ -8,7 +8,7 @@ const TodoItem = (props) => {
     todo: { id, value, completed },
     handleDeleteTodo,
     handleCompletedTodo,
-    redactedTodo
+    redactedTodo,
   } = props;
 
   const [todoValue, setTodoValue] = useState(value);

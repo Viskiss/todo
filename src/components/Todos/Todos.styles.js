@@ -8,15 +8,9 @@ export default styled.section`
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    padding: 20px 10px;
+    padding: 20px 7px;
   }
-  .form-todos_input {
-    padding: 5px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
-    background-color: #efefef;
-  }
+  
   .todos-list {
     display: flex;
     flex-direction: column-reverse;

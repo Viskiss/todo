@@ -1,18 +1,14 @@
 import StyleTodos from "./Todos.styles";
 
-import Button from "../Button/Button";
 import { useState } from "react";
 
 import TodoItem from "./components/TodoItem/TodoItem";
 import FilterButtons from "./components/FilterButtons/FilterButtons";
+import FormAddTodo from "./components/FormAddTodo/FormAddTodo";
 
 const Todos = () => {
-  const [value, setValue] = useState("");
   const [todos, setTodos] = useState([]);
-
-  const handleChangeInput = (e) => {
-    setValue(e.target.value);
-  };
+  const [filter, setFilter] = useState("ALL");
 
   const handleDeleteTodo = (id) => {
     const deletedTodo = todos.filter((todo) => todo.id !== id);
@@ -32,6 +28,22 @@ const Todos = () => {
     setTodos(completedTodo);
   };
 
+  const filterTodos = todos.filter((todo) => {
+    if (filter === "ALL") {
+      return true;
+    }
+
+    if (filter === "ACTIVE" && !todo.completed) {
+      return true;
+    }
+
+    if (filter === "COMPLETED" && todo.completed) {
+      return true;
+    }
+
+    return false;
+  });
+
   const createTodo = (value) => {
     const todo = {
       value,
@@ -44,59 +56,30 @@ const Todos = () => {
     setTodos(newTodos);
   };
 
-  // const deleteTodo = (id) => {
-  //   const deletedTodo = todos.filter((todo) => todo.id !== id);
-  //   setTodos(deletedTodo);
-  // };
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    const result = value.trim();
-
-    if (result !== "") {
-      createTodo(value);
-    }
-
-    setValue("");
-  };
-
-  const redactedTodo = (value, id, completed) => {
+  const redactedTodo = (value, id) => {
     if (!value) {
       handleDeleteTodo(id);
     } else {
-      return {
-        todos: [
-          ...todos,
-          {
-            id: id,
-            value: value,
-            completed: completed,
-          },
-        ],
-      };
+      const newArrTodo = [...todos];
+      const newTodo = newArrTodo.find((todo) => todo.id === id);
+
+      newTodo.value = value;
     }
-  }
- 
+  };
 
   return (
     <StyleTodos>
       <div className="container">
-        <form onSubmit={submitHandler} className="form-todos">
-          <input
-            value={value}
-            onChange={handleChangeInput}
-            className="form-todos_input"
-            type="text"
-          />
-          <Button>Add</Button>
-        </form>
-        <div>
-          <FilterButtons />
-        </div>
-        <div>
+        <FormAddTodo
+          createTodo={createTodo}
+        />
+        <FilterButtons 
+          todos={todos} 
+          filter={filter} 
+          setFilter={setFilter}
+        />
           <ul className="todos-list">
-            {todos.map((todo) => (
+            {filterTodos.map((todo) => (
               <TodoItem
                 handleCompletedTodo={handleCompletedTodo}
                 handleDeleteTodo={handleDeleteTodo}
@@ -106,7 +89,6 @@ const Todos = () => {
               />
             ))}
           </ul>
-        </div>
       </div>
     </StyleTodos>
   );
