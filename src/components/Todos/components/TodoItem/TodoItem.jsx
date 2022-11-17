@@ -7,8 +7,7 @@ const TodoItem = (props) => {
   const {
     todo: { id, value, completed },
     handleDeleteTodo,
-    handleCompletedTodo,
-    redactedTodo,
+    EditTodo,
   } = props;
 
   const [todoValue, setTodoValue] = useState(value);
@@ -17,8 +16,12 @@ const TodoItem = (props) => {
     setTodoValue(event.target.value);
   };
 
-  const onSubmit = (e) => {
-    redactedTodo(todoValue, id, completed);
+  const handleCompletedTodo = () => {
+    EditTodo(id, value, completed);
+  };
+
+  const handleBlur = () => {
+    EditTodo(id, todoValue, completed);
   };
 
   return (
@@ -28,12 +31,13 @@ const TodoItem = (props) => {
         type="text"
         id={id}
         value={todoValue}
-        onBlur={onSubmit}
+        onBlur={handleBlur}
         onChange={changeInputTodo}
       />
       <div className="todo-item_buttons">
-        <Button onClick={handleDeleteTodo.bind(null, id)}>Delete</Button>
-        <Button onClick={handleCompletedTodo.bind(null, id)}>Completed</Button>
+        <Button onClick={() => handleDeleteTodo(id)}>Delete</Button>
+
+        <Button onClick={() => handleCompletedTodo(id)}>Completed</Button>
       </div>
     </TodoItemStyles>
   );

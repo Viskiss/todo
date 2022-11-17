@@ -8,9 +8,7 @@ const Button = styled.button`
   font-weight: bold;
   cursor: pointer;
 
-  &.active {
-    background-color: thistle;
-  }
+  background-color: ${({ isActive }) => (isActive ? "thistle" : "#efefef")};
 `;
 
 export default Button;

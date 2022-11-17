@@ -4,8 +4,6 @@ import Button from "../../../Button/Button";
 import { useState } from "react";
 
 const FormAddTodo = (props) => {
-  const { createTodo } = props;
-
   const [value, setValue] = useState("");
 
   const handleChangeInput = (e) => {
@@ -18,7 +16,7 @@ const FormAddTodo = (props) => {
     const result = value.trim();
 
     if (result !== "") {
-      createTodo(value);
+      props.createTodo(value);
     }
 
     setValue("");
@@ -30,9 +28,8 @@ const FormAddTodo = (props) => {
         value={value}
         onChange={handleChangeInput}
         className="form-todos_input"
-        type="text"
       />
-      <Button>Add</Button>
+      <Button type="submit">Add</Button>
     </StylesForm>
   );
 };

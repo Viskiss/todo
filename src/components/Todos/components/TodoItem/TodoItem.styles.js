@@ -7,7 +7,7 @@ export default styled.li`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  &:not(:nth-child(1)) {
+  &:not(:nth-child(0)) {
     margin-bottom: 10px;
   }
   .todo-item_input {

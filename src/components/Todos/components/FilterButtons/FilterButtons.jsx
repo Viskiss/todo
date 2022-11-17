@@ -1,28 +1,12 @@
 import Button from "../../../Button/Button";
 
 const FilterButtons = (props) => {
-  const { filter, setFilter, todos } = props;
-
-  const allCount = todos.length;
-  const activeCount = todos.filter((todo) => !todo.completed).length;
-  const completedCount = todos.filter((todo) => todo.completed).length;
+  const { filter, setFilter, count, countActive, countCompleted } = props;
 
   const buttonData = [
-    {
-      title: "ALL",
-      class: `${filter === "ALL" ? "active" : ""}`,
-      count: allCount,
-    },
-    {
-      title: "ACTIVE",
-      class: `${filter === "ACTIVE" ? "active" : ""}`,
-      count: activeCount,
-    },
-    {
-      title: "COMPLETED",
-      class: `${filter === "COMPLETED" ? "active" : ""}`,
-      count: completedCount,
-    },
+    { title: "ALL", count: count },
+    { title: "ACTIVE", count: countActive },
+    { title: "COMPLETED", count: countCompleted },
   ];
 
   return (
@@ -30,7 +14,7 @@ const FilterButtons = (props) => {
       {buttonData.map((item) => (
         <Button
           key={item.title}
-          className={item.class}
+          isActive={item.title === filter}
           onClick={() => setFilter(`${item.title}`)}
         >
           {item.title} {item.count}
