@@ -1,4 +1,4 @@
-import StylesForm from "./FormAddTodo.styles"
+import StylesForm from "./FormAddTodo.styles";
 
 import Button from "../../../Button/Button";
 import { useState } from "react";

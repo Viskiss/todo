@@ -7,19 +7,35 @@ const FilterButtons = (props) => {
   const activeCount = todos.filter((todo) => !todo.completed).length;
   const completedCount = todos.filter((todo) => todo.completed).length;
 
+  const buttonData = [
+    {
+      title: "ALL",
+      class: `${filter === "ALL" ? "active" : ""}`,
+      count: allCount,
+    },
+    {
+      title: "ACTIVE",
+      class: `${filter === "ACTIVE" ? "active" : ""}`,
+      count: activeCount,
+    },
+    {
+      title: "COMPLETED",
+      class: `${filter === "COMPLETED" ? "active" : ""}`,
+      count: completedCount,
+    },
+  ];
+
   return (
     <div>
-      <Button className={`${filter === "ALL" ? 'active' : ''}`} onClick={() => setFilter("ALL")}>
-        All {allCount}
-      </Button>
-
-      <Button className={`${filter === "ACTIVE" ? 'active' : ''}`} onClick={() => setFilter("ACTIVE")}>
-        Active {activeCount}
-      </Button>
-
-      <Button className={`${filter === "COMPLETED" ? 'active' : ''}`} onClick={() => setFilter("COMPLETED")}>
-        Completed {completedCount}
-      </Button>
+      {buttonData.map((item) => (
+        <Button
+          key={item.title}
+          className={item.class}
+          onClick={() => setFilter(`${item.title}`)}
+        >
+          {item.title} {item.count}
+        </Button>
+      ))}
     </div>
   );
 };
