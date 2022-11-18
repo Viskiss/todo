@@ -20,6 +20,5 @@ export default styled.li`
     background-color: inherit;
     padding: 5px 10px;
     font-weight: bold;
-    outline: none;
   }
 `;

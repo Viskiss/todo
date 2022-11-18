@@ -19,7 +19,7 @@ const Todos = () => {
     setTodos(newArr);
   };
 
-  const memoizedValue = useMemo(
+  const memoizedTodoData = useMemo(
     () => ({
       ALL: todos,
       ACTIVE: todos.filter((todo) => !todo.completed),
@@ -27,19 +27,6 @@ const Todos = () => {
     }),
     [todos, filter]
   );
-
-  const filterTodo = (filter) => {
-    if (filter === "ALL") {
-      return memoizedValue.ALL;
-    }
-    if (filter === "ACTIVE") {
-      return memoizedValue.ACTIVE;
-    }
-    if (filter === "COMPLETED") {
-      return memoizedValue.COMPLETED;
-    }
-  };
-  filterTodo(filter)
 
   const createTodo = (value) => {
     const todo = {
@@ -54,34 +41,40 @@ const Todos = () => {
   };
 
   const EditTodo = (id, value, completed) => {
-    console.log(value);
     if (!value) {
       return handleDeleteTodo(id);
     }
-    // Copy object
-    const newArr = [...todos];
-    const newTodo = newArr.find((todo) => todo.id === id);
 
-    newTodo.completed = !newTodo.completed;
-    newTodo.value = value;
+    const changeableTodo = todos.findIndex((todo) => todo.id === id);
+    const newTodo = {
+      value: value,
+      id: id,
+      completed: completed,
+    };
+    const newArr = [
+      ...todos.slice(0, changeableTodo, newTodo),
+      ...todos.slice(changeableTodo + 1),
+    ];
+    newArr.push(newTodo);
+    setTodos(newArr);
+
+    console.log(newTodo);
   };
-
-  const keyFilter = ["ALL", "COMPLETED", "ACTIVE"]
 
   return (
     <StyleTodos>
       <div className="container">
         <FormAddTodo createTodo={createTodo} />
         <FilterButtons
-          count={memoizedValue.ALL.length}
-          countActive={memoizedValue.ACTIVE.length}
-          countCompleted={memoizedValue.COMPLETED.length}
+          count={memoizedTodoData.ALL.length}
+          countActive={memoizedTodoData.ACTIVE.length}
+          countCompleted={memoizedTodoData.COMPLETED.length}
           todos={todos}
           filter={filter}
           setFilter={setFilter}
         />
         <ul className="todos-list">
-          {Object.keys(memoizedValue).filter(key => keyFilter.includes(filter)).map((todo) => (
+          {memoizedTodoData[filter].map((todo) => (
             <TodoItem
               handleDeleteTodo={handleDeleteTodo}
               EditTodo={EditTodo}
@@ -89,7 +82,6 @@ const Todos = () => {
               todo={todo}
             />
           ))}
-          
         </ul>
       </div>
     </StyleTodos>

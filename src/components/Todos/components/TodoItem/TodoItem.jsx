@@ -17,7 +17,7 @@ const TodoItem = (props) => {
   };
 
   const handleCompletedTodo = () => {
-    EditTodo(id, value, completed);
+    EditTodo(id, value, !completed);
   };
 
   const handleBlur = () => {
