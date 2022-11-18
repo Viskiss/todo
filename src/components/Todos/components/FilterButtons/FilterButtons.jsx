@@ -1,3 +1,4 @@
+import { filterTodosSelector } from "../../../../redux/todos/todoSlice";
 import Button from "../../../Button/Button";
 
 const FilterButtons = (props) => {
@@ -9,13 +10,19 @@ const FilterButtons = (props) => {
     { title: "COMPLETED", count: countCompleted },
   ];
 
+  const filterTodos = (title) => {
+   setFilter(title)
+  
+   filterTodosSelector(title)
+  }
+
   return (
     <div>
       {buttonData.map((item) => (
         <Button
           key={item.title}
           isActive={item.title === filter}
-          onClick={() => setFilter(`${item.title}`)}
+          onClick={() => filterTodos(`${item.title}`)}
         >
           {item.title} {item.count}
         </Button>

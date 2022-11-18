@@ -1,14 +1,15 @@
 import StylesForm from "./FormAddTodo.styles";
 
 import Button from "../../../Button/Button";
+
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../../../../redux/todos/todoSlice";
 
 const FormAddTodo = (props) => {
   const [value, setValue] = useState("");
 
-  const handleChangeInput = (e) => {
-    setValue(e.target.value);
-  };
+  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ const FormAddTodo = (props) => {
     const result = value.trim();
 
     if (result !== "") {
-      props.createTodo(value);
+      dispatch(addTodo({ todo: value }));
     }
 
     setValue("");
@@ -26,7 +27,7 @@ const FormAddTodo = (props) => {
     <StylesForm onSubmit={submitHandler}>
       <input
         value={value}
-        onChange={handleChangeInput}
+        onChange={(event) => setValue(event.target.value)}
         className="form-todos_input"
       />
       <Button type="submit">Add</Button>
