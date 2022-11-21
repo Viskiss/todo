@@ -3,7 +3,7 @@ import todoReducer from "./todos/todoSlice";
 
 const store = configureStore({
   reducer: {
-    todos: todoReducer,
+    todoData: todoReducer,
   },
   devTools: true,
 });

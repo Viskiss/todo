@@ -1,8 +1,8 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
 export const filterTodosSelector = createSelector(
-  (store) => store.todos.todos,
-  (store) => store.todos.filter,
+  (store) => store.todoData.todos,
+  (store) => store.todoData.filter,
   (todos, filter) => {
     const todoList = todos.filter((todo) => {
       switch (filter) {
@@ -35,8 +35,10 @@ const todoSlice = createSlice({
     },
 
     deleteTodo: (state, action) => {
-      const todoId = action.payload.id;
-      state.todos = state.todos.filter((todo) => todo.id !== todoId);
+      const index = state.todos.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.todos.splice(index, 1);
     },
 
     completeTodo: (state, action) => {
