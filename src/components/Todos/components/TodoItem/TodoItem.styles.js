@@ -2,11 +2,15 @@ import styled from "styled-components";
 
 export default styled.li`
   display: flex;
-  border-radius: 10px;
-  background-color: #efefef;
+  border-radius: 10px ;
+  border: 2px solid #efefef;
+  /* background-color: #efefef; */
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  transition: transform 0.3s, box-shadow 0.5s;
+  backdrop-filter:blur(0.8px);
+
   &:not(:nth-child(0)) {
     margin-bottom: 10px;
   }

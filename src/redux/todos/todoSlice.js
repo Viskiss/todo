@@ -1,54 +1,65 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
-
 export const filterTodosSelector = createSelector(
-  (todos) => todos.todos, 
-  (filter) => filter.filter,(todos, filter)=>{
-  console.log(filter, todos)
-  switch (filter) {
-    case "ALL":
-      return todos;
-    case "COMPLETED":
-      return todos.filter((todo) => todo.completed);
-    case "ACTIVE":
-      return todos.filter((todo) => !todo.completed);
+  (store) => store.todos.todos,
+  (store) => store.todos.filter,
+  (todos, filter) => {
+    const todoList = todos.filter((todo) => {
+      switch (filter) {
+        case "ALL":
+          return todos;
+        case "ACTIVE":
+          return !todo.completed;
+        case "COMPLETED":
+          return todo.completed;
+      }
+    });
+    return todoList;
   }
-});
+);
 
-export const todoSlice = createSlice({
+const todoSlice = createSlice({
   name: "todos",
   initialState: {
-    todos: [],
-    filter: "ALL"
+    todos: JSON.parse(localStorage.getItem("todos")) || [],
+    filter: "ALL",
   },
   reducers: {
     addTodo: (state, action) => {
-      const todo = {
+      const newTodo = {
         id: Date.now(),
         value: action.payload.todo,
         completed: false,
       };
-      console.log(action.payload);
-      state.push(todo);
+      state.todos.push(newTodo);
     },
 
     deleteTodo: (state, action) => {
-      return state.filter((item) => item.id !== action.payload.id);
+      const todoId = action.payload.id;
+      state.todos = state.todos.filter((todo) => todo.id !== todoId);
+    },
+
+    completeTodo: (state, action) => {
+      const index = state.todos.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.todos[index].completed = action.payload.completed;
     },
 
     editTodo: (state, action) => {
-      const changeableTodo = state.find(
-        (todo) => todo.id === action.payload.id
+      const index = state.todos.findIndex(
+        (item) => item.id === action.payload.id
       );
-      changeableTodo.value = action.payload.value;
-      changeableTodo.completed = action.payload.completed;
-      console.log(changeableTodo);
+      state.todos[index].value = action.payload.value;
     },
 
-    filterTodo: (state, action) => {},
+    filterTodo: (state, action) => {
+      state.filter = action.payload;
+    },
   },
 });
 
-export const { addTodo, deleteTodo, editTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, completeTodo, editTodo, filterTodo } =
+  todoSlice.actions;
 
 export default todoSlice.reducer;

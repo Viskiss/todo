@@ -1,4 +1,5 @@
-import { filterTodosSelector } from "../../../../redux/todos/todoSlice";
+import { useDispatch } from "react-redux";
+import { filterTodo } from "../../../../redux/todos/todoSlice";
 import Button from "../../../Button/Button";
 
 const FilterButtons = (props) => {
@@ -10,11 +11,12 @@ const FilterButtons = (props) => {
     { title: "COMPLETED", count: countCompleted },
   ];
 
+  const dispatch = useDispatch();
+
   const filterTodos = (title) => {
-   setFilter(title)
-  
-   filterTodosSelector(title)
-  }
+    setFilter(title);
+    dispatch(filterTodo(title));
+  };
 
   return (
     <div>

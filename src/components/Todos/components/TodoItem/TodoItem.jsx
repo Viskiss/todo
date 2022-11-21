@@ -4,7 +4,11 @@ import Button from "../../../Button/Button";
 
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteTodo, editTodo } from "../../../../redux/todos/todoSlice";
+import {
+  completeTodo,
+  deleteTodo,
+  editTodo,
+} from "../../../../redux/todos/todoSlice";
 
 const TodoItem = (props) => {
   const {
@@ -20,14 +24,14 @@ const TodoItem = (props) => {
   };
 
   const completedTodo = () => {
-    dispatch(editTodo({ id: id, value: value, completed: !completed }));
+    dispatch(completeTodo({ id: id, completed: !completed }));
   };
 
   const changeTodo = () => {
     if (!todoValue) {
       dispatch(deleteTodo({ id: id }));
     } else {
-      dispatch(editTodo({ id: id, value: todoValue }));
+      dispatch(editTodo({ id: id, value: todoValue, completed: completed }));
     }
   };
 
